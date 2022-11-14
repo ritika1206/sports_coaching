@@ -8,7 +8,7 @@ class Coaching < ApplicationRecord
   validates :end, comparison: { greater_than: :beginning }
 
   with_options allow_blank: true do
-    validates :name, uniqueness: { scope: [:branch_id, :sport_id] }
+    validates :user_id, uniqueness: { scope: [:branch_id, :sport_id] }
     validates :sport_id, uniqueness: { scope: [:from, :to] }
   end
 
