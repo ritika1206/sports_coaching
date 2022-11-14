@@ -1,5 +1,5 @@
 class Branch < ApplicationRecord
-  has_many :coachings, dependent: :destroy, counter_cache: :coachings_count
+  has_many :coachings, dependent: :destroy
   has_many :sports, through: :coachings, source: :sport
   has_many :users, through: :coachings, source: :user
 

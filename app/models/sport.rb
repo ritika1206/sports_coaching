@@ -1,5 +1,5 @@
 class Sport < ApplicationRecord
-  has_many :coachings, dependent: :destroy, counter_cache: :coachings_count
+  has_many :coachings, dependent: :destroy
   has_many :users, through: :coachings, source: :user
   has_many :branches, through: :coachings, source: :branch
 

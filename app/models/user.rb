@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   REGEX_EMAIL = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
-  has_many :coachings, counter_cache: :coachings_count, dependent: :destroy
+  has_many :coachings, dependent: :destroy
   has_many :enrolled_branches, through: :coachings, source: :branch
   has_many :enrolled_sports, through: :coachings, source: :sport
 
