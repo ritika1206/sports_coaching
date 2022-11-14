@@ -22,7 +22,7 @@ class Coaching < ApplicationRecord
     end
 
     def no_batch_clash
-      Coaching.where(user_id: user_id).each do |coaching|
+      user.coachings.each do |coaching|
         unless (to < coaching.from) || (from > coaching.to)
           errors.add(:base, 'batch timings are clashing')
         end
