@@ -9,7 +9,7 @@ class Coaching < ApplicationRecord
 
   with_options allow_blank: true do
     validates :user_id, uniqueness: { scope: [:branch_id, :sport_id] }
-    validates :sport_id, uniqueness: { scope: [:from, :to] }
+    validate :no_batch_clash
   end
 
   before_create :set_coaching_duration
@@ -19,6 +19,14 @@ class Coaching < ApplicationRecord
     def set_coaching_duration
       self.beginning = Date.today.beginning_of_month
       self.end = Date.today.end_of_month
+    end
+
+    def no_batch_clash
+      Coaching.where(user_id: user_id).each do |coaching|
+        unless (to < coaching.from) || (from > coaching.to)
+          errors.add(:base, 'batch timings are clashing')
+        end
+      end
     end
 end
 
