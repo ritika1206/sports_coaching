@@ -1,9 +1,13 @@
 class Sport < ApplicationRecord
-  has_many :coachings, dependent: :destroy
-  has_many :users, through: :coachings, source: :user
-  has_many :branches, through: :coachings, source: :branch
+  has_many :sport_batches, dependent: :destroy
+  has_many :batches, -> { distinct }, through: :sport_batches
+  has_many :branches, -> { distinct }, through: :sport_batches
 
-  enum name: [:cricket, :tennis, :badminton, :squash, :table_tennis]
+  has_many :sport_batch_branches, through: :sport_batches
+  has_many :users, -> { distinct }, through: :sport_batch_branches
+  has_many :coachings, -> { distinct }, through: :sport_batch_branches
+
+  validates :name, presence: true
 end
 
-# name, coachings_count
+# name

@@ -2,8 +2,12 @@ class User < ApplicationRecord
   REGEX_EMAIL = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
   has_many :coachings, dependent: :destroy
-  has_many :enrolled_branches, through: :coachings, source: :branch
-  has_many :enrolled_sports, through: :coachings, source: :sport
+  has_many :active_coachings, -> { active }
+  has_many :sport_batch_branches, through: :coachings, source: :sport_batch_branch
+
+  has_many :batches, -> { distinct }, through: :coachings
+  has_many :branches, -> { distinct }, through: :coachings
+  has_many :sports, -> { distinct }, through: :coachings
 
   validates :name, :email, presence: true
   with_options allow_blank: true do
@@ -12,4 +16,4 @@ class User < ApplicationRecord
   end
 end
 
-# name, email, coachings_count
+# name, email
